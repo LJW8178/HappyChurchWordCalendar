@@ -388,6 +388,10 @@ The Flutter package, display labels, Docker Compose service, NAS APK artifact, e
 
 Before updating an existing NAS install, stop the old Compose project and make a backup of `/volume1/wordcalendar-data`. Rename the keys in `/volume1/docker/wordcalendar/.env` to `WORDCALENDAR_NAS_TOKEN`, `WORDCALENDAR_NAS_ADMIN_TOKEN`, `WORDCALENDAR_NAS_PUSH_URL`, and `WORDCALENDAR_NAS_PUSH_SECRET`; keep each existing value unchanged. The API no longer reads `DATEPDF_*` keys. Redeploy with `deploy_to_nas.bat` or copy the updated files and run `sudo docker compose up -d --build` from `/volume1/docker/wordcalendar`.
 
+### Running deployment scripts directly on DSM
+
+If the repository is present at `/volume1/docker/wordcalendar`, run `sudo sh deploy/synology/generate_tokens.sh` for a first install and `sudo sh deploy/synology/deploy_on_synology.sh` to deploy or update the API. These NAS-side scripts are documented in [deploy/synology/README.md](deploy/synology/README.md). Build the Android APK on a PC with Flutter and the Android SDK; `build_nas_apk.bat` is a PC-side build script, not a DSM script.
+
 On first startup, the API copies `data/datepdf.sqlite3` into `data/wordcalendar.sqlite3`, checks the new database, and retains the original data as `data/wordcalendar.sqlite3.pre-rename-backup`. Check the API logs and test Q&A/view counts before deleting that backup. If both database filenames already exist, the API stops with an error rather than choosing one and risking overwriting data; back up `/data` and resolve the two files manually. The shared data-folder path remains `/volume1/wordcalendar-data`.
 
 ## 매일 알람이 울리지 않을 때
